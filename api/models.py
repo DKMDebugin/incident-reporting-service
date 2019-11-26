@@ -1,8 +1,9 @@
 from django.db import models
-from django.db.models.signals import (
-                            pre_save,
-                            post_save,
-                            )
+from django.db.models import Manager
+from django.core.exceptions import ObjectDoesNotExist
+from rest_framework import status
+from rest_framework.response import Response
+
 from django_mysql.models import ListCharField
 
 # Create your models here.
@@ -30,6 +31,20 @@ class Type(models.Model):
     def getIssueInfo(self):
         pass
 
+class DefinitionManager(Manager):
+    """Extend definition Manager"""
+    def bulk_delete(self, def_list=[]):
+        no_of_items = len(def_list)
+        message = {"Recieved": no_of_items}
+        if no_of_items > 0:
+            del_tup = self.objects.filter(
+                                pk__in=def_list).delete()
+            message["Deleted"] = del_tup[0]
+            if del_tup[0] == no_of_items:
+                return Response(success_message, status=status.HTTP_200_OK)
+            return Response(content, status=status.HTTP_409_CONFLICT)
+        return Response(message, status=status.HTTP_406_NOT_ACCEPTABLE)
+
 class Definition(models.Model):
     """Bug report definition"""
     frequency = models.ForeignKey('Frequency', on_delete=models.CASCADE)
@@ -48,6 +63,8 @@ class Definition(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     next_execution_date = models.DateTimeField(auto_now=True)
+
+    objects = DefinitionManager()
 
 
     def __str__(self):
