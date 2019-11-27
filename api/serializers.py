@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
-from .models import (Frequency, Type, 
+from drf_writable_nested.serializers import WritableNestedModelSerializer
+
+from .models import (Frequency, Type,
                     Definition, Report)
 
 class FrequencySerializer(serializers.HyperlinkedModelSerializer):
@@ -13,7 +15,9 @@ class TypeSerializer(serializers.HyperlinkedModelSerializer):
         model = Type
         fields = ("url", "id", "name", "created_at", "updated_at")
 
-class DefinitionSerializer(serializers.HyperlinkedModelSerializer):
+class DefinitionSerializer(WritableNestedModelSerializer):
+    frequency = FrequencySerializer()
+    type = TypeSerializer()
     class Meta:
         model = Definition
         fields = ("url", "id", "frequency", "type", "project_uuid",

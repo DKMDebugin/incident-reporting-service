@@ -17,7 +17,7 @@ type_list = TypeViewset.as_view({
 
 # wire up the views with urls
 router = DefaultRouter()
-router.register(r"frequencies", FrequencyViewset)
+router.register(r"frequencies", FrequencyViewset, )
 router.register(r"types", TypeViewset)
 router.register(r"definitions", DefinitionViewset)
 
