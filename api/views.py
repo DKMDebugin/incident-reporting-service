@@ -1,8 +1,9 @@
-from rest_framework import viewsets, permissions
-from rest_framework import status, generics
-from rest_framework.response import Response
-from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+
+from rest_framework import viewsets
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import action
 
 from .models import Frequency, Type, Definition, Report
 from .serializers import (
@@ -24,44 +25,14 @@ class DefinitionViewset(viewsets.ModelViewSet):
     queryset = Definition.objects.all()
     serializer_class = DefinitionSerializer
 
-    def bulk_destroy(self, request, pk=None):
-        if pk is None:
-            def_ids= request.query_params.get('def_ids', None)
-            Definition.objects.bulk_delete(def_ids=def_ids)
-        else:
-            instance = self.get_object(pk)
-            if not instance:
-                return Response(status=status.HTTP_404_NOT_FOUND)
-            instance.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    @action(methods=['delete'], detail=False, url_path="bulk_delete")
+    def bulk_destroy(self, request):
+        def_ids= request.query_params.get('def_ids', None)
+        def_ids = [int(id) for id in def_ids.split(",")]
+        if def_ids is not None:
+            return Definition.objects.bulk_delete(def_ids=def_ids)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
-# class DefinitionBulkDelete(generics.DestroyAPIView):
-#     model = Definition
-#     serializer_class = DefinitionSerializer
-#     # lookup_field = "id"
-#
-#     def get_queryset(self):
-#         # print(self.request.query_params)
-#         params=self.request.query_params.get("def_list", None)
-#         print(params)
-#         def_list=[]
-#         for param in params.split(","):
-#             pk.append(int(param))
-#         return Definition.objects.bulk_delete(def_list=def_list)
-#
-# # @csrf_exempt
-# def definition_bulk_delete(request):
-#     # print(self.request.query_params)
-#     if request.method=="DELETE":
-#         print(request)
-#         # params=request.DELETE.get("def_list", "")
-#         # print(params)
-#         # def_list=[]
-#         # if params is not "":
-#         #     for param in params.split(","):
-#         #         def_list.append(int(param))
-#         #     return Definition.objects.bulk_delete(def_list=def_list)
-#     return HttpResponse("200")
 
 class ReportViewset(viewsets.ModelViewSet):
     queryset = Report.objects.all()
