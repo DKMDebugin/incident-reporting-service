@@ -5,6 +5,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
+from django_cron import CronJobBase, Schedule
+
 from .models import Frequency, Type, Definition, Report
 from .serializers import (
                            FrequencySerializer, TypeSerializer,
@@ -12,6 +14,16 @@ from .serializers import (
                         )
 from .permissions import IsReadOnly
 
+
+class CoreJobScheduler(CronJobBase):
+    """Make API call to core service every 2 hours"""
+    RUN_EVERY_MINS = 120 # every 2 hours
+
+    schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
+    code = 'api.core_job_scheduler'
+
+    def do(self):
+        print('doing job')
 
 class FrequencyViewset(viewsets.ReadOnlyModelViewSet):
     queryset = Frequency.objects.all()
@@ -32,7 +44,6 @@ class DefinitionViewset(viewsets.ModelViewSet):
         if def_ids is not None:
             return Definition.objects.bulk_delete(def_ids=def_ids)
         return Response(status=status.HTTP_404_NOT_FOUND)
-
 
 class ReportViewset(viewsets.ModelViewSet):
     queryset = Report.objects.all()
