@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import Manager
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 from rest_framework.response import Response
@@ -22,6 +21,9 @@ class Type(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name
+
     def generateReport(self):
         pass
 
@@ -31,19 +33,14 @@ class Type(models.Model):
     def getIssueInfo(self):
         pass
 
-class DefinitionManager(Manager):
+class DefinitionManager(models.Manager):
     """Extend definition Manager"""
-    def bulk_delete(self, def_list=[]):
-        no_of_items = len(def_list)
-        message = {"Recieved": no_of_items}
-        if no_of_items > 0:
-            del_tup = self.objects.filter(
-                                pk__in=def_list).delete()
-            message["Deleted"] = del_tup[0]
-            if del_tup[0] == no_of_items:
-                return Response(success_message, status=status.HTTP_200_OK)
-            return Response(content, status=status.HTTP_409_CONFLICT)
-        return Response(message, status=status.HTTP_406_NOT_ACCEPTABLE)
+    def bulk_delete(self, def_ids=[]):
+        if self.filter(id__in=def_ids).count() == len(def_ids):
+            self.filter(id__in=def_ids).delete()
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 class Definition(models.Model):
     """Bug report definition"""
