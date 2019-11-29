@@ -11,8 +11,8 @@ from .models import (
             Definition,
             Report
             )
-from .serializers import FrequencySerializer, TypeSerializer
-from .utilities import reverse_querystring, my_reverse
+from .serializers import DefinitionSerializer
+from .utilities import reverse_querystring
 
 # Testcases for Models
 
@@ -147,34 +147,33 @@ class DefinitionAPITests(APITestCase):
                         project_uuid="e5e563", roles=["manager"],
                         users=['IBC'])
 
-    # def test_create_definition(self):
-    #     """
-    #     Ensure definition create endpoint works properly.
-    #     """
-    #     url = reverse('definition-list')
-    #     # context={'request': self.request}
-    #     # frequency = JSONRenderer.render(FrequencySerializer(self.frequency).data)
-    #     # type = JSONRenderer.render(TypeSerializer(self.type).data)
-    #     data = {
-    #         'frequency': {
-    #             "name":self.frequency.name,
-    #             "created_at": self.frequency.created_at,
-    #             "updated_at": self.frequency.updated_at
-    #         },
-    #         'type': {
-    #             "name":self.type.name,
-    #             "created_at": self.type.created_at,
-    #             "updated_at": self.type.updated_at
-    #         },
-    #         "project_uuid": "545454",
-    #         "roles": ["manager"],
-    #         "users": ["IBC"]
-    #          }
-    #     response = self.client.post(url, data, format="json")
-    #
-    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-    #     self.assertEqual(Definition.objects.count(), 1)
-    #     self.assertEqual(Definition.objects.get().project_uuid, data["project_uuid"])
+    def test_create_definition(self):
+        """
+        Ensure definition create endpoint works properly.
+        """
+        url = reverse('definition-list')
+        data = {
+            'frequency': {
+                "name":self.frequency.name,
+                "created_at": self.frequency.created_at,
+                "updated_at": self.frequency.updated_at
+            },
+            'type': {
+                "name":self.type.name,
+                "created_at": self.type.created_at,
+                "updated_at": self.type.updated_at
+            },
+            "project_uuid": "545454",
+            "roles": ["manager"],
+            "users": ["IBC"]
+             }
+        data = DefinitionSerializer(data=data)
+        # data.is_valid(raise_exception=True)
+        response = self.client.post(url, data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Definition.objects.count(), 1)
+        self.assertEqual(Definition.objects.get().project_uuid, data["project_uuid"])
 
     def test_list_definition(self):
         """
@@ -206,6 +205,6 @@ class DefinitionAPITests(APITestCase):
         """
         Ensure definiton bulk delete endpoint works properly.
         """
-        url = my_reverse("definition-bulk-destroy", query_kwargs={"def_ids":f"{self.def2.id},{self.def3.id}"})
+        url = reverse_querystring("definition-bulk-destroy", query_kwargs={"def_ids":f"{self.def2.id},{self.def3.id}"})
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

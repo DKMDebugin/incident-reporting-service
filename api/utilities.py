@@ -1,7 +1,7 @@
 from django.utils.http import urlencode
 from django.urls import reverse
 
-def my_reverse(viewname, kwargs=None, query_kwargs=None):
+def reverse_querystring(viewname, kwargs=None, query_kwargs=None):
     """
     Custom reverse to add a query string after the url
     Example usage:
