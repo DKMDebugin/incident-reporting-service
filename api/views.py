@@ -7,12 +7,15 @@ from rest_framework.decorators import action
 
 from django_cron import CronJobBase, Schedule
 
+import py_eureka_client.eureka_client as eureka_client
+
 from .models import Frequency, Type, Definition, Report
 from .serializers import (
                            FrequencySerializer, TypeSerializer,
                            DefinitionSerializer, ReportSerializer
                         )
 from .permissions import IsReadOnly
+
 
 
 class CoreJobScheduler(CronJobBase):
@@ -24,6 +27,7 @@ class CoreJobScheduler(CronJobBase):
 
     def do(self):
         print('doing job')
+        # res = eureka_client.do_service("CORESERVICE", "/service/context/path")
 
 class FrequencyViewset(viewsets.ReadOnlyModelViewSet):
     queryset = Frequency.objects.all()

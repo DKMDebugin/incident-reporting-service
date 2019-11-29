@@ -16,7 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+import py_eureka_client.eureka_client as eureka_client
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('api.urls')),
 ]
+
+
+your_rest_server_port = 8761
+# The flowing code will register your server to eureka server and also start to send heartbeat every 30 seconds
+eureka_client.init(eureka_server="https://ims-service-discovery.herokuapp.com/eureka",
+                   app_name="reporting",
+                   instance_port=your_rest_server_port)
