@@ -34,7 +34,6 @@ ALLOWED_HOSTS = ["*"]
 INSTALLED_APPS = [
     # 3rd party app(s)
     "rest_framework",
-    "django_cron",
     # User app(s)
     "api",
 
@@ -126,8 +125,3 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-
-
-CRON_CLASSES = [
-    "api.views.CoreJobScheduler",
-]

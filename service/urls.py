@@ -15,9 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-import os
-
 import py_eureka_client.eureka_client as eureka_client
+import os
+from decouple import config
+
+from api.jobs import (
+                Facade,
+                JobCoreService,
+                job_client,
+                Scheduler
+                )
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,12 +33,13 @@ urlpatterns = [
 ]
 
 
-your_rest_server_port = 8761
-# The flowing code will register your server to eureka server and also start to send heartbeat every 30 seconds
-eureka_client.init(eureka_server="https://ims-service-discovery.herokuapp.com/eureka",
+# Register to eureka server
+eureka_client.init(eureka_server=config("EUREKA_SERVER"),
                    app_name="reporting",
-                   instance_port=your_rest_server_port)
+                   instance_port=config("EUREKA_SERVER_PORT", cast=int))
 
 
 # run job
-os.system("python manage.py runcrons")
+interval = 5
+facade = Facade(Scheduler, JobCoreService, interval)
+job_client(facade)
