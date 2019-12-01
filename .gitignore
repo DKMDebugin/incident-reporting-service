@@ -4,3 +4,4 @@ venv
 db.*
 migrations
 .env
+count_loc.py

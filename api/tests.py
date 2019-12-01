@@ -15,7 +15,6 @@ from .serializers import DefinitionSerializer
 from .utilities import reverse_querystring
 
 # Testcases for Models
-
 class FrequencyTestCase(TestCase):
     """Test case for Frequency model"""
     def setUp(self):
