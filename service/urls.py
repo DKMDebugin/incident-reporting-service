@@ -24,13 +24,9 @@ import py_eureka_client.eureka_client as eureka_client
 
 from decouple import config
 
-from api.jobs import (
-                Facade,
-                JobCoreService,
-                job_client,
-                Scheduler
-                )
-
+from api.jobs import JobCoreService
+from api.schedulers import Scheduler
+from api.job_schedulers import JobScheduler, job_scheduling_client
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -52,6 +48,6 @@ except Exception:
     print("* * * *\nUnable to connect to eureka server.\nCheck device internet connection.\n* * * *\n")
 
 # run job
-interval = 120
-facade = Facade(Scheduler, JobCoreService, interval)
-job_client(facade)
+interval = 5
+js = JobScheduler(Scheduler, JobCoreService, interval)
+job_scheduling_client(js)
