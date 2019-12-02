@@ -24,9 +24,9 @@ import py_eureka_client.eureka_client as eureka_client
 
 from decouple import config
 
-from api.jobs import JobCoreService
-from api.schedulers import Scheduler
-from api.job_schedulers import JobScheduler, job_scheduling_client
+from api.jobs.jobs import JobCoreService
+from api.jobs.schedulers import Scheduler
+from api.jobs.job_schedulers import JobScheduler, job_scheduling_client
 
 urlpatterns = [
     path('admin/', admin.site.urls),

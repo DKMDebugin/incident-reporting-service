@@ -4,7 +4,7 @@ from django_mysql.models import ListCharField
 from rest_framework import status
 
 from .managers import DefinitionManager, ProxyManager
-from .utilities import upload_file_path
+from api.utilities import upload_file_path
 
 
 

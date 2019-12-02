@@ -7,12 +7,12 @@ from rest_framework.decorators import action
 
 import py_eureka_client.eureka_client as eureka_client
 
-from .models import Frequency, Type, Definition, Report
-from .serializers import (
+from api.models.models import Frequency, Type, Definition, Report
+from api.serializers.serializers import (
                            FrequencySerializer, TypeSerializer,
                            DefinitionSerializer, ReportSerializer
                         )
-from .permissions import IsReadOnly
+from api.permissions.permissions import IsReadOnly
 
 
 class FrequencyViewset(viewsets.ReadOnlyModelViewSet):

@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter, Route
 
-from .views import (
+from .views.views import (
                     FrequencyViewset, TypeViewset,
                     DefinitionViewset, ReportViewset,
                     )
