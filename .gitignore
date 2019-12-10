@@ -6,3 +6,5 @@ migrations
 .env
 count_loc.py
 *.png
+.idea
+dummy.json

@@ -42,12 +42,12 @@ if settings.DEBUG:
 # Register to eureka server
 try:
     eureka_client.init(eureka_server=config("EUREKA_SERVER"),
-                       app_name="Reporting",
+                       app_name="REPORTING",
                        instance_port=config("EUREKA_SERVER_PORT", cast=int))
 except Exception:
-    print("* * * *\nUnable to connect to eureka server.\nCheck device internet connection.\n* * * *\n")
+    print("* * * *\nUnable to connect to eureka server.\nCheck device internet & server connection.\n* * * *\n")
 
 # run job
-interval = 5
-js = JobScheduler(Scheduler, JobCoreService, interval)
-job_scheduling_client(js)
+# interval = 5
+# js = JobScheduler(Scheduler, JobCoreService, interval)
+# job_scheduling_client(js)
