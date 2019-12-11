@@ -15,6 +15,11 @@ sqlparse = "==0.3.0"
 Django = "==2.2.7"
 py-eureka-client = "==0.7.4"
 six = "==1.13.0"
+gunicorn = "*"
+dj-database-url = "*"
+dj-static = "*"
+static3 = "*"
+mysql-python = "*"
 
 [requires]
 python_version = "3.7"
