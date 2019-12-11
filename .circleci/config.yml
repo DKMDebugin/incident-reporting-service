@@ -12,17 +12,11 @@ jobs:
       - image: circleci/python:3.7.0
         environment:
           PIPENV_VENV_IN_PROJECT: true
-          # DATABASE_URL: mysql://reportingservice:@localhost:3306/incident.reporting.service
-          # DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
-      - image: circleci/mysql:8.0.13
+          DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
+      - image: circleci/postgres:9.6.2
         environment:
-          # MYSQL_USER: incident.reporting.service
-          # MYSQL_DB: reportingservice
-          MYSQL_ROOT_PASSWORD: rootpw
-          MYSQL_DATABASE: reportingservice
-          MYSQL_USER: root
-          MYSQL_PASSWORD: passw0rd
-          MYSQL_HOST: localhost
+          POSTGRES_USER: root
+          POSTGRES_DB: circle_test
 
     steps:
       - checkout
