@@ -8,3 +8,5 @@ count_loc.py
 *.png
 .idea
 dummy.json
+.scannerwork
+code_analysis_output.txt
