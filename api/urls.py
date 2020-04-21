@@ -1,19 +1,17 @@
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter, Route
+from rest_framework.routers import DefaultRouter
 
-from .views.views import (
-                    FrequencyViewset, TypeViewset,
-                    DefinitionViewset, ReportViewset,
-                    )
+from .views import (
+    FrequencyViewset, TypeViewset,
+    DefinitionViewset, )
 
 # bind url to viewsets
 frequency_list = FrequencyViewset.as_view({
-            "get": "list",
-        })
+    "get": "list",
+})
 type_list = TypeViewset.as_view({
-            "get": "list",
-        })
-
+    "get": "list",
+})
 
 # wire up the views with urls
 router = DefaultRouter()

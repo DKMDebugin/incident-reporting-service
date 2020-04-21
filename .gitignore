@@ -10,3 +10,4 @@ count_loc.py
 dummy.json
 .scannerwork
 code_analysis_output.txt
+code_analysis_output_after_refactoring.txt

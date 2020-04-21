@@ -1,8 +1,12 @@
-import threading, time
+"""Contains the scheduler class"""
+
+import threading
+import time
 
 
 class Scheduler:
     """Scheduler class for jobs. It autos starts after initialization"""
+
     def __init__(self, interval, function, *args, **kwargs):
         self._timer = None
         self.interval = interval
@@ -20,10 +24,10 @@ class Scheduler:
 
     def start(self):
         if not self.is_running:
-          self.next_call += self.interval
-          self._timer = threading.Timer(self.next_call - time.time(), self._run)
-          self._timer.start()
-          self.is_running = True
+            self.next_call += self.interval
+            self._timer = threading.Timer(self.next_call - time.time(), self._run)
+            self._timer.start()
+            self.is_running = True
 
     def stop(self):
         self._timer.cancel()

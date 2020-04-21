@@ -1,9 +1,12 @@
+"""Eureka http client"""
 import urllib
 
 import py_eureka_client.http_client as http_client
 
+
 # 1. Inherit the `HttpClient` class in `py_eureka_client.http_client`.
 class HttpPostClient(http_client.HttpClient):
+    """Eureka http post client"""
 
     # 2. Rewrite the `urlopen` method in your class.
     # If you want to raise an exception, please make sure that the exception is an `urllib.error.HTTPError` or `urllib.error.URLError`
@@ -21,6 +24,7 @@ class HttpPostClient(http_client.HttpClient):
             print(e)
 
         return response.getcode()
+
 
 # 3. Set your class to `py_eureka_client.http_client`.
 http_client.set_http_client_class(HttpPostClient)

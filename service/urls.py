@@ -24,9 +24,8 @@ import py_eureka_client.eureka_client as eureka_client
 
 from decouple import config
 
-from api.jobs.jobs import JobCoreService
-from api.jobs.schedulers import Scheduler
-from api.jobs.job_schedulers import JobScheduler, job_scheduling_client
+from api.jobs import (Scheduler, Job, JobCoreService,
+                      JobScheduler, job_scheduling_client)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,8 +35,6 @@ urlpatterns = [
 if settings.DEBUG:
     # urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-
 
 # Register to eureka server
 try:
@@ -54,5 +51,5 @@ except Exception as e:
 
 # run job
 interval = 5
-js = JobScheduler(Scheduler, JobCoreService, interval)
-job_scheduling_client(js)
+job_scheduler = JobScheduler(Scheduler, JobCoreService, interval)
+job_scheduling_client(job_scheduler)
