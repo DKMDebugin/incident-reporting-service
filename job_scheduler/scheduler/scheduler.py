@@ -1,4 +1,4 @@
-"""Contains the scheduler class"""
+"""Contains the Scheduler class. It contains methods to start, run, and stop a job """
 
 import threading
 import time
@@ -32,3 +32,4 @@ class Scheduler:
     def stop(self):
         self._timer.cancel()
         self.is_running = False
+

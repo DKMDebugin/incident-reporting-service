@@ -5,3 +5,4 @@ from .definition import Definition
 from .frequency import Frequency
 from .report import Report
 from .type import Type
+from .managers import ProxyManager

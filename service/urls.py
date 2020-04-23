@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-import os
+from datetime import datetime
 
 from django.contrib import admin
 from django.urls import path, include
@@ -24,8 +24,10 @@ import py_eureka_client.eureka_client as eureka_client
 
 from decouple import config
 
-from api.jobs import (Scheduler, Job, JobCoreService,
-                      JobScheduler, job_scheduling_client)
+from job_scheduler.job_scheduler import JobSchedulerConcrete, JobSchedulerConcreteProxy
+from job_scheduler.models.creator import CoreServiceJobCreator
+from job_scheduler.scheduler import Scheduler
+from job_scheduler.job_scheduler import JobSchedulerClient
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,19 +39,24 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Register to eureka server
-try:
-    eureka_client.init(eureka_server=config("EUREKA_SERVER"),
-                       app_name="REPORTING",
-                       instance_host="ims-reporting.herokuapp.com",
-                       instance_port=config("EUREKA_SERVER_PORT", cast=int),
-                       # port=eureka_client.PortWrapper(443, true)
-                       )
-
-except Exception as e:
-    # print("* * * *\nUnable to connect to eureka server.\nCheck device internet & server connection.\n* * * *\n")
-    print(e)
+# try:
+#     eureka_client.init(eureka_server=config("EUREKA_SERVER"),
+#                        app_name="REPORTING",
+#                        instance_host="ims-reporting.herokuapp.com",
+#                        instance_port=config("EUREKA_SERVER_PORT", cast=int),
+#                        # port=eureka_client.PortWrapper(443, true)
+#                        )
+#
+# except Exception as e:
+#     # print("* * * *\nUnable to connect to eureka server.\nCheck device internet & server connection.\n* * * *\n")
+#     print(e)
 
 # run job
-interval = 5
-job_scheduler = JobScheduler(Scheduler, JobCoreService, interval)
-job_scheduling_client(job_scheduler)
+# interval = 5
+# job_scheduler = JobScheduler(Scheduler, JobCoreService, interval)
+# job_scheduling_client(job_scheduler)
+
+job = CoreServiceJobCreator('first job', 'daily job', 5, datetime.now()).operation()
+job_scheduler = JobSchedulerConcrete(Scheduler, job)
+job_scheduler_proxy = JobSchedulerConcreteProxy(job_scheduler)
+JobSchedulerClient.perform_operation(job_scheduler_proxy)

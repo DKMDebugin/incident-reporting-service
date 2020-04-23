@@ -10,10 +10,10 @@ from .models import (
     Report
 )
 from .serializers import DefinitionSerializer
-from .utilities import reverse_querystring
+from .utilities import Utilities
 
 
-# Testcases for Models
+# Test cases for Models
 class FrequencyTestCase(TestCase):
     """Test case for Frequency model"""
 
@@ -215,6 +215,6 @@ class DefinitionAPITests(APITestCase):
         """
         Ensure definiton bulk delete endpoint works properly.
         """
-        url = reverse_querystring("definition-bulk-destroy", query_kwargs={"def_ids": f"{self.def2.id},{self.def3.id}"})
+        url = Utilities.reverse_querystring("definition-bulk-destroy", query_kwargs={"def_ids": f"{self.def2.id},{self.def3.id}"})
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

@@ -2,37 +2,30 @@
 
 from django.db import models
 
-from api.utilities import upload_file_path
+from api.utilities import Utilities
 
 
 class Report(models.Model):
     """File attachment for  bug definition"""
     definition = models.ForeignKey("Definition", on_delete=models.CASCADE)
     status = models.CharField(max_length=100, default='')
-    attachment = models.FileField(upload_to=upload_file_path, blank=True, null=True)
+    attachment = models.FileField(upload_to=Utilities.upload_folder_file_path("bug_report"), blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     _type = models.CharField(max_length=70)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if not self.__class__.__subclasses__():
-            self._type = self.__class__.__name__.lower()
-        else:
-            subclass = [x for x in self.__class__.__subclasses__() if x.__name__.lower() == self._type]
-            if subclass:
-                self.__class__ = subclass[0]
-            else:
-                self._type = self.__class__.__name__.lower()
+        Utilities.set_type(self, *args, **kwargs)
 
     def __str__(self):
         return f"{self.id}"
 
-    def generateReport(self):
+    def generate_report(self):
         pass
 
-    def getBugInfo(self):
+    def get_bug_info(self):
         pass
 
-    def getIssueInfo(self):
+    def get_issue_info(self):
         pass
