@@ -25,6 +25,8 @@ requests = "==2.22.0"
 urllib3 = "==1.25.7"
 whitenoise = "==5.0"
 psycopg2-binary= "==2.8.4"
+dateutil = "*"
+python-dateutil = "*"
 
 [requires]
 python_version = "3.7"

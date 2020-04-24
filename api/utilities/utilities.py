@@ -6,6 +6,8 @@ import random
 from django.urls import reverse
 from django.utils.http import urlencode
 
+from dateutil.parser import parse
+
 
 class Utilities:
     """Utilities class serves as namespace for utility functions"""
@@ -45,13 +47,6 @@ class Utilities:
     def upload_folder_file_path(cls, folder_name):
         """Get folder name & return function """
 
-        # def upload_file_path(instance, file_name):
-        #     """Create New File Name"""
-        #     new_filename = random.randint(1, 3910209312)
-        #     name, ext = cls.get_filename_ext(file_name)
-        #     final_filename = f"{new_filename}{ext}"
-        #     return f'{folder_name}/{new_filename}/{final_filename}'
-
         return cls.upload_file_path
 
     @classmethod
@@ -66,3 +61,7 @@ class Utilities:
                 self.__class__ = subclass[0]
             else:
                 self._type = self.__class__.__name__.lower()
+
+    @classmethod
+    def covert_str_to_datetime(cls, date_str):
+        return parse(date_str)

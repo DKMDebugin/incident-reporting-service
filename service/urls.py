@@ -24,14 +24,15 @@ import py_eureka_client.eureka_client as eureka_client
 
 from decouple import config
 
-from job_scheduler.job_scheduler import JobSchedulerConcrete, JobSchedulerConcreteProxy
-from job_scheduler.models.creator import CoreServiceJobCreator
+from job_scheduler.job_scheduler import JobSchedulerCreator
+from job_scheduler.models import CoreServiceJobCreator
 from job_scheduler.scheduler import Scheduler
 from job_scheduler.job_scheduler import JobSchedulerClient
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('api.urls')),
+    path('api/v1/', include('job_scheduler.urls')),
 ]
 
 if settings.DEBUG:
@@ -56,7 +57,7 @@ if settings.DEBUG:
 # job_scheduler = JobScheduler(Scheduler, JobCoreService, interval)
 # job_scheduling_client(job_scheduler)
 
-job = CoreServiceJobCreator('first job', 'daily job', 5, datetime.now()).operation()
-job_scheduler = JobSchedulerConcrete(Scheduler, job)
-job_scheduler_proxy = JobSchedulerConcreteProxy(job_scheduler)
-JobSchedulerClient.perform_operation(job_scheduler_proxy)
+# job = CoreServiceJobCreator('first job', 'daily job', 5, datetime.now()).operation()
+# # job_scheduler = JobSchedulerConcrete(Scheduler, job)
+# job_scheduler_proxy = JobSchedulerCreator().create_job_scheduler_concrete_proxy(Scheduler, job)
+# JobSchedulerClient.perform_operation(job_scheduler_proxy)

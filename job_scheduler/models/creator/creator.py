@@ -1,4 +1,4 @@
-"""Creator class is the super class for all creators."""
+"""Creator class is the super class for ORM object creators."""
 from abc import ABC, abstractmethod
 
 from job_scheduler.models import Job
