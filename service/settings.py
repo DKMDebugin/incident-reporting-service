@@ -16,7 +16,6 @@ from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = config('LOCAL_DEBUG', cast=bool)
 
 ALLOWED_HOSTS = ["*"]
-
 
 # Application definition
 
@@ -76,18 +74,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'service.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 if os.getcwd() != '/app':
     DATABASES = {
         'default': {
-           'ENGINE': 'django.db.backends.mysql',
-           'NAME': config("DB_NAME"),
-           'USER': config("DB_USER"),
-           'PASSWORD': config("DB_PASSWORD"),
-           'HOST': config("DB_HOST"),
-           'PORT': config("DB_PORT"),
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': config("DB_NAME"),
+            'USER': config("DB_USER"),
+            'PASSWORD': config("DB_PASSWORD"),
+            'HOST': config("DB_HOST"),
+            'PORT': config("DB_PORT"),
         }
     }
 
@@ -108,7 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -132,12 +128,13 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/report-attachments/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'report-attachments/')
 
-
 # Heroku settings
 if os.getcwd() == '/app':
     import dj_database_url
 
-    DATABASES['default'] = dj_database_url.config()
+    DATABASES = {
+        'default': dj_database_url.config()
+    }
 
     # Honor the 'X-Forwarded-Proto' header for request.is_secure().
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
