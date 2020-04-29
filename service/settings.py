@@ -132,18 +132,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'report-attachments/')
 
 # Heroku settings
 if os.getcwd() == '/app':
-    import dj_database_url
-
-    DATABASES = {
-       'default': dj_database_url.config(default='postgres://localhost')
-    }
 
     # Honor the 'X-Forwarded-Proto' header for request.is_secure().
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
     # Allow all host headers.
-    # ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
-    ALLOWED_HOSTS = ['*']
-
+    ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
 
     DEBUG = config('DEBUG', cast=bool)
