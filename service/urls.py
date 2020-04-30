@@ -57,7 +57,7 @@ if settings.DEBUG:
 # job_scheduler = JobScheduler(Scheduler, JobCoreService, interval)
 # job_scheduling_client(job_scheduler)
 
-# job = CoreServiceJobCreator('first job', 'daily job', 5, datetime.now()).operation()
+# job = CoreServiceJobCreator('first job', 'daily job', 5, '2020-5-1').operation()
 # # job_scheduler = JobSchedulerConcrete(Scheduler, job)
 # job_scheduler_proxy = JobSchedulerCreator().create_job_scheduler_concrete_proxy(Scheduler, job)
 # JobSchedulerClient.perform_operation(job_scheduler_proxy)

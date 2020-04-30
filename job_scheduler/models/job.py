@@ -16,8 +16,9 @@ class Job(models.Model):
     job_type = models.ForeignKey(Type, on_delete=models.CASCADE)
     interval = models.ForeignKey(Interval, on_delete=models.CASCADE)
     status = models.CharField(max_length=2, choices=STATUS, default='NP')
-    execute_at = models.DateTimeField()
-    executed = models.BooleanField(default=False)
+    to_be_executed_at = models.DateTimeField(default=None)
+    commence_execution_at = models.DateTimeField(default=None)
+    execution_count = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     _type = models.CharField(max_length=70)
@@ -30,6 +31,7 @@ class Job(models.Model):
         return self.name
 
     def do_job(self):
+        # If job successful return true else return false
         pass
 
     def log_details(self):
