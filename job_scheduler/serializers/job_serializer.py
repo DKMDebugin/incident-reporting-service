@@ -25,9 +25,15 @@ class JobSerializer(serializers.ModelSerializer):
     """Serializer for the Job model"""
     # interval = IntervalSerializer()
     # job_type = TypeSerializer()
+    # url = serializers.SerializerMethodField()
+    #
+    # def get_url(self, obj):
+    #     print(obj.data)
+    #     return obj.get_absolute_url()
 
     class Meta:
         model = Job
-        fields = ('id', 'name', 'job_type', 'interval', 'status',
-                  'execute_at', 'executed', 'created_at', 'updated_at')
+        fields = ('url', 'id', 'name', 'job_type', 'interval', 'status',
+                  'to_be_executed_at', 'commence_execution_at',
+                  'execution_count', 'created_at', 'updated_at')
         depth = 1

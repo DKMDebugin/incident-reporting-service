@@ -125,8 +125,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-MEDIA_URL = '/report-attachments/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'report-attachments/')
+MEDIA_URL = '/attachments/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'attachments/')
 
 # Heroku settings
 if os.getcwd() == '/app':

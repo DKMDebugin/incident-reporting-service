@@ -13,11 +13,11 @@ class Type(models.Model):
     def __str__(self):
         return self.name
 
-    def generateReport(self):
+    def generate_report(self):
         pass
 
-    def getBugInfo(self):
+    def get_bug_info(self):
         pass
 
-    def getIssueInfo(self):
+    def get_issue_info(self):
         pass

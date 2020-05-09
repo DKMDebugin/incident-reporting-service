@@ -5,5 +5,6 @@ from .interval import Interval
 from .job import Job
 from .core_service_job import CoreServiceJob
 from .log import Log
+from .reporting_service_job import ReportingServiceJob
 
-from .creator import CoreServiceJobCreator
+from .creator import JobCreator

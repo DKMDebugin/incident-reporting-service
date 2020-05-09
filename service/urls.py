@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from datetime import datetime
+import pytz
 
 from django.contrib import admin
 from django.urls import path, include
@@ -25,7 +26,7 @@ import py_eureka_client.eureka_client as eureka_client
 from decouple import config
 
 from job_scheduler.job_scheduler import JobSchedulerCreator
-from job_scheduler.models import CoreServiceJobCreator
+from job_scheduler.models import JobCreator, ReportingServiceJob
 from job_scheduler.scheduler import Scheduler
 from job_scheduler.job_scheduler import JobSchedulerClient
 
@@ -57,7 +58,11 @@ if settings.DEBUG:
 # job_scheduler = JobScheduler(Scheduler, JobCoreService, interval)
 # job_scheduling_client(job_scheduler)
 
-# job = CoreServiceJobCreator('first job', 'daily job', 5, '2020-5-1').operation()
-# # job_scheduler = JobSchedulerConcrete(Scheduler, job)
-# job_scheduler_proxy = JobSchedulerCreator().create_job_scheduler_concrete_proxy(Scheduler, job)
-# JobSchedulerClient.perform_operation(job_scheduler_proxy)
+# JobCreator('first job', 'daily', 5, '2020-4-30 19:55:00', 'coreservicejob').operation()
+# JobCreator('second job', 'daily', 10, '2020-4-30 19:55:00', 'coreservicejob').operation()
+# JobCreator('Reporting service job', 'constant', 2, '2020-4-30 19:54:00', 'reportingservicejob').operation()
+# job = ReportingServiceJob.objects.get(id=28)
+# curr_time = datetime.now(pytz.UTC)
+# if job.to_be_executed_at == curr_time:
+#     job_scheduler_proxy = JobSchedulerCreator().create_job_scheduler_concrete_proxy(Scheduler, job)
+#     JobSchedulerClient.perform_operation(job_scheduler_proxy)

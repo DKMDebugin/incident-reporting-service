@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from job_scheduler.models import Job, CoreServiceJobCreator
+from job_scheduler.models import Job, JobCreator
 from job_scheduler.serializers import JobSerializer
 
 
@@ -39,6 +39,7 @@ def job_list_detail(request, pk=None):
         else:
             jobs = list(queryset)
             serializer = JobSerializer(data=jobs, context={'request': request}, many=True)
+            print(serializer)
         # print(serializer.errors)
         if serializer.is_valid():
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -49,8 +50,8 @@ def job_list_detail(request, pk=None):
 def job_create(request):
     if request.method == 'POST':
         data = request.data
-        created_job = CoreServiceJobCreator(data.get('name'), data.get('job_type'),
-                                            data.get('interval'), data.get('execute_at')).operation()
+        created_job = JobCreator(data.get('name'), data.get('job_type'),
+                                            data.get('interval'), data.get('execute_at'), data.get('class_type')).operation()
         if created_job is not None:
             content = {'message': 'Job created!'}
             return Response(content, status=status.HTTP_201_CREATED)

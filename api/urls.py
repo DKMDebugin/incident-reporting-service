@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 
 from .views import (
     FrequencyViewset, TypeViewset,
-    DefinitionViewset, )
+    DefinitionViewset, ReportViewset )
 
 # bind url to viewsets
 frequency_list = FrequencyViewset.as_view({
@@ -18,6 +18,7 @@ router = DefaultRouter()
 router.register(r"frequencies", FrequencyViewset, )
 router.register(r"types", TypeViewset)
 router.register(r"definitions", DefinitionViewset)
+router.register(r"reports", ReportViewset)
 
 urlpatterns = [
 

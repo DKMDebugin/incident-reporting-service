@@ -5,15 +5,20 @@ import random
 
 from django.urls import reverse
 from django.utils.http import urlencode
+from django.utils import dateformat
 
+import pytz
 from dateutil.parser import parse
 
 
 class Utilities:
     """Utilities class serves as namespace for utility functions"""
 
-    @classmethod
-    def reverse_querystring(cls, view_name, kwargs=None, query_kwargs=None):
+    def __init__(self):
+        self.folder_name = None
+
+    @staticmethod
+    def reverse_querystring(view_name, kwargs=None, query_kwargs=None):
         """
         Custom reverse to add a query string after the url
         Example usage:
@@ -35,33 +40,38 @@ class Utilities:
         name, ext = os.path.splitext(base_name)
         return name, ext
 
-    @classmethod
-    def upload_file_path(cls, instance, file_name):
+    def upload_file_path(self, instance, file_name):
         """Create New File Name"""
+        assert (self.folder_name is not None), \
+            f"folder_name is {self.folder_name}." \
+            f"Pass it into upload_folder_file_path('folder_name')"
         new_filename = random.randint(1, 3910209312)
-        name, ext = cls.get_filename_ext(file_name)
+        name, ext = self.get_filename_ext(file_name)
         final_filename = f"{new_filename}{ext}"
-        return f'{folder_name}/{new_filename}/{final_filename}'
+        return f'{self.folder_name}/{new_filename}/{final_filename}'
 
-    @classmethod
-    def upload_folder_file_path(cls, folder_name):
+    def upload_folder_file_path(self, folder_name):
         """Get folder name & return function """
+        self.folder_name = folder_name
+        return self.upload_file_path
 
-        return cls.upload_file_path
-
-    @classmethod
-    def set_type(cls, self, *args, **kwargs):
+    @staticmethod
+    def set_type(self, *args, **kwargs):
         """Implicitly set the type of the object"""
 
         if not self.__class__.__subclasses__():
             self._type = self.__class__.__name__.lower()
         else:
-            subclass = [x for x in self.__class__.__subclasses__() if x.__name__.lower() == self._type]
+            subclass = [x for x in self.__class__.__subclasses__()
+                        if x.__name__.lower() == self._type]
             if subclass:
                 self.__class__ = subclass[0]
             else:
                 self._type = self.__class__.__name__.lower()
 
-    @classmethod
-    def covert_str_to_datetime(cls, date_str):
-        return parse(date_str)
+    @staticmethod
+    def covert_str_to_datetime(date_str):
+        date = pytz.utc.localize(parse(date_str))
+        if not dateformat.is_naive(date):
+            print(date)
+            return date

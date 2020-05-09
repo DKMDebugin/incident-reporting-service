@@ -9,7 +9,9 @@ class Report(models.Model):
     """File attachment for  bug definition"""
     definition = models.ForeignKey("Definition", on_delete=models.CASCADE)
     status = models.CharField(max_length=100, default='')
-    attachment = models.FileField(upload_to=Utilities.upload_folder_file_path("bug_report"), blank=True, null=True)
+    attachment = models.FileField(
+        upload_to=Utilities().upload_folder_file_path("bug_report"),
+        blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     _type = models.CharField(max_length=70)

@@ -1,5 +1,6 @@
 """Contains the ORM for the Job table"""
 from django.db import models
+from django.urls import reverse
 
 from job_scheduler.models import Interval, Type
 from api.utilities import Utilities
@@ -29,6 +30,9 @@ class Job(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('job_detail', kwargs={'pk': self.pk})
 
     def do_job(self):
         # If job successful return true else return false
