@@ -50,8 +50,12 @@ def job_list_detail(request, pk=None):
 def job_create(request):
     if request.method == 'POST':
         data = request.data
-        created_job = JobCreator(data.get('name'), data.get('job_type'),
-                                            data.get('interval'), data.get('execute_at'), data.get('class_type')).operation()
+        created_job = JobCreator(
+            data.get('name'),
+            data.get('job_type'),
+            data.get('interval'),
+            data.get('execute_at'),
+            data.get('class_type')).operation()
         if created_job is not None:
             content = {'message': 'Job created!'}
             return Response(content, status=status.HTTP_201_CREATED)

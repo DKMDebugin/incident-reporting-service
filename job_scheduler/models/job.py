@@ -31,6 +31,14 @@ class Job(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def _type(self):
+        return self.___type
+
+    @_type.setter
+    def _type(self, _type):
+        self.___type = _type
+
     def get_absolute_url(self):
         return reverse('job_detail', kwargs={'pk': self.pk})
 
