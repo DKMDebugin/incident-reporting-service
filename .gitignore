@@ -16,3 +16,4 @@ workflow.txt
 requirements_old.txt
 db_data_old.json
 static
+/diagrams/

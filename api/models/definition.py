@@ -31,5 +31,5 @@ class Definition(models.Model):
     def __str__(self):
         return f"{self.id}"
 
-    def calculateNextExecDate(self):
+    def calculate_next_exec_date(self):
         pass
