@@ -23,13 +23,13 @@ class Report(models.Model):
     def __str__(self):
         return f"{self.id}"
 
-    @property
-    def _type(self):
-        return self.___type
-
-    @_type.setter
-    def _type(self, _type):
-        self.___type = _type
+    # @property
+    # def _type(self):
+    #     return self._type
+    #
+    # @_type.setter
+    # def _type(self, _type):
+    #     self._type = _type
 
     def generate_report(self):
         pass
